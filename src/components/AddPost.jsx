@@ -30,13 +30,13 @@ function AddPost() {
       setNewPost({ title: '', content: '', user_id: '' });
       setSuccess('Post created Successfully!');
       setTimeout(() => {
-        window.removeEventListener(setSuccess())
+        setSuccess('')
       }, 2000);
     } catch (error) {
       console.error('Error creating post:', error);
       setError('Failed to create post');
       setTimeout(() => {
-        window.removeEventListener(setError())
+        setError('')
       }, 2000);
     } finally {
       setLoading(false);
