@@ -14,11 +14,12 @@ function AllPosts() {
     try {
       setLoading(true);
       const response = await axios.get(`${config.API_URL}/api/posts`);
-      setPosts(response.data);
+      setPosts(response.data || []);
       setError('');
     } catch (error) {
       console.error('Error fetching posts:', error);
-      setError('Failed to fetch posts');
+      setError('Failed to fetch posts. API might be unavailable.');
+      setPosts([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -45,6 +46,9 @@ function AllPosts() {
   }, [searchTerm]);
 
   const deletePost = async (id) => {
+    if (!confirm('Are you sure you want to delete this post?')) {
+      return;
+    }
 
     try {
       await axios.delete(`${config.API_URL}/api/posts/${id}`);
@@ -55,7 +59,7 @@ function AllPosts() {
       }
     } catch (error) {
       console.error('Error deleting post:', error);
-      setError('Failed to delete post');
+      setError('Failed to delete post. API might be unavailable.');
     }
   };
 
